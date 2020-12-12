@@ -2,7 +2,7 @@ import 'package:dart/linked-list/linked-list-node.dart';
 
 abstract class BaseLinkedList<T> {
   LinkedList prepend(T value);
-  LinkedList append(T value);
+  LinkedList? append(T value);
   LinkedList reverse();
   LinkedList<List> fromArray(List values);
   LinkedListNode delete(T value);
@@ -12,8 +12,8 @@ abstract class BaseLinkedList<T> {
 }
 
 class LinkedList<T> implements BaseLinkedList, Comparable {
-  LinkedListNode tail;
-  LinkedListNode head;
+  LinkedListNode? tail;
+  LinkedListNode? head;
 
   LinkedList() {
     tail = null;
@@ -21,7 +21,19 @@ class LinkedList<T> implements BaseLinkedList, Comparable {
   }
 
   @override
-  LinkedList append(value) {
+  LinkedList? append(value) {
+    final newNode = LinkedListNode(value, null);
+    if (head == null) {
+      head = tail = newNode;
+      return this;
+    }
+
+    tail = tail?.next = newNode;
+    return this;
+  }
+
+  @override
+  LinkedList prepend(value) {
     final newNode = LinkedListNode(value, head);
     head = newNode;
     tail ??= newNode; // equal to check tail == null
@@ -48,12 +60,6 @@ class LinkedList<T> implements BaseLinkedList, Comparable {
 
   @override
   LinkedList<List> fromArray(List values) {
-    throw UnimplementedError();
-  }
-
-  @override
-  LinkedList prepend(value) {
-    // TODO: implement prepend
     throw UnimplementedError();
   }
 
